@@ -38,4 +38,13 @@ function handleClick(event) {
 `);
 
   instance.show();
+
+  function handleEscapeKey(event) {
+    if (event.key === "Escape") {
+      instance.close();
+
+      document.removeEventListener("keydown", handleEscapeKey);
+    }
+  }
+  document.addEventListener("keydown", handleEscapeKey);
 }
