@@ -6,7 +6,10 @@ console.log(galleryItems);
 const galleryList = document.querySelector(".gallery");
 galleryList.insertAdjacentHTML("beforeend", markup(galleryItems));
 
-galleryList.addEventListener("click", handleClick);
+const lightbox = new SimpleLightbox(".gallery a", {
+  captionsData: "alt",
+  captionDelay: 250,
+});
 
 function markup(arr) {
   return arr
@@ -19,15 +22,4 @@ function markup(arr) {
         </li>`
     )
     .join("");
-}
-
-function handleClick(event) {
-  event.preventDefault();
-  if (!event.target.classList.contains("gallery__image")) {
-    return;
-  }
-  const lightbox = new SimpleLightbox(".gallery__link", {
-    captionDelay: 250,
-    captionsData: "alt",
-  });
 }
