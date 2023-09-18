@@ -28,23 +28,25 @@ function markup(arr) {
 
 function handleClick(event) {
   event.preventDefault();
-  if (!event.target.classList.contains("gallery__image")) {
+  if (event.target.nodeName !== "IMG") {
     return;
   }
   const originalSrc = event.target.getAttribute("data-source");
 
-  const instance = basicLightbox.create(`
+  const EscClose = (e) => {
+    if (e.key === "Escape") {
+      instance.close();
+    }
+  };
+  const instance = basicLightbox.create(
+    `
     <img src="${originalSrc}">
-`);
+`,
+    {
+      onShow: (instance) => window.addEventListener("keydown", EscClose),
+      onClose: (instance) => window.removeEventListener("keydown", EscClose),
+    }
+  );
 
   instance.show();
-
-  function handleEscapeKey(event) {
-    if (event.key === "Escape") {
-      instance.close();
-
-      document.removeEventListener("keydown", handleEscapeKey);
-    }
-  }
-  document.addEventListener("keydown", handleEscapeKey);
 }
